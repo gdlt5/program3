@@ -1,0 +1,62 @@
+Greg De La Torre
+CS371 - P3
+
+Errors and Fixes in IglooScore1:
+
+Line 39 - 42:    if (score1 < score2)
+                    s = score1;       //Original Statement: s = score2; Function works by subtracting lowest score from total of all 3 scores. s should not be assigned to highest value. Correction: s = score1
+                 else
+                    s = score2;       //Original Statement: s = score1; To continue fix of statement at line 40, s should be assigned to lowest value in comparison. Correction: s = score2
+
+General Flaw: While not neccessarily an error, IglooScore1 fails to check if scores are negative values or are greater than 50.
+              Correction: Implement code that will check for valid input.
+              Inserted at Line 64:
+                 //Determine if input score values are valid
+		  if (s1<0 || s1>50 || s2<0 || s2>50 || s3<0 || s3>50) {
+		      System.err.println("Error: scores must be between 0 and 50!");
+		      return;
+		  }
+
+
+
+Errors and Fixes in IglooScore2:
+
+Line 44: s2 = score3; //Original statement: s2 = score2; Correction: s2 should = score3.
+
+Overall Score Method:    //Error: If 2 values are the same and 1 is different, score is not calculated correctly. Correction: 
+                         //Also accounts for 3 equal scores.
+
+		  public int overallScore()
+		  {
+		    //Initialized s1 and s2 to 0
+		    int s, s1 = 0, s2 = 0;
+		    if (score1 < score2 && score1 < score3) {
+			s1 = score2;
+			s2 = score3;
+		    } else if (score2 < score1 && score2 < score3 ) {
+			s1 = score1;
+			s2 = score3; //Original statement: s2 = score2; Correction: s2 should = score3.
+		    } else if (score3 < score1 && score3 < score2) {
+			s1 = score1;
+			s2 = score2;
+		    } 
+		    //Error: If 2 values are the same and 1 is different, score is not calculated correctly. Correction: New else-if statements:
+		      else {
+			  if(score1 == score2 && score1 < score3){
+			      s1 = score1;
+			      s2 = score3;
+			  } else if(score2 == score3 && score2 < score1){
+			      s1 = score2;
+			      s2 = score1;
+			  } else{
+			      s1 = score1;
+			      s2 = score2;
+			  }
+			  
+		    }
+		    s = s1 + s2;
+		    return s;
+		  }
+
+
+Line 59: if (args.length != 3) { // Original statement: if (args==null || args.length != 3); removed args == null, testing of null not possible
